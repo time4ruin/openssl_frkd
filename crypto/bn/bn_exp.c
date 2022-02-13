@@ -294,7 +294,6 @@ int BN_mod_exp_recp(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
 int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
                     const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 {
-    asm volatile("SAFE1_start:");
     int i, j, bits, ret = 0, wstart, wend, window, wvalue;
     int start = 1;
     BIGNUM *d, *r;
@@ -409,6 +408,8 @@ int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
          * a window to do.  To do this we need to scan forward until the last
          * set bit before the end of the window
          */
+
+        asm volatile("SAFE1_start:");
         wvalue = 1;
         wend = 0;
         for (i = 1; i < window; i++) {
@@ -421,6 +422,7 @@ int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
             }
         }
 
+        asm volatile("SAFE1_end:");
         /* wend is the size of the current window */
         j = wend + 1;
         /* add the 'bytes above' */
@@ -1128,7 +1130,6 @@ int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
 int BN_mod_exp_mont_word(BIGNUM *rr, BN_ULONG a, const BIGNUM *p,
                          const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 {
-    asm volatile("SAFE1_end:");
     BN_MONT_CTX *mont = NULL;
     int b, bits, ret = 0;
     int r_is_one;

@@ -294,6 +294,7 @@ int BN_mod_exp_recp(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
 int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
                     const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 {
+    asm volatile("SAFE1_start:");
     int i, j, bits, ret = 0, wstart, wend, window, wvalue;
     int start = 1;
     BIGNUM *d, *r;
@@ -391,6 +392,7 @@ int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
 #endif
     if (!bn_to_mont_fixed_top(r, BN_value_one(), mont, ctx))
         goto err;
+    
     for (;;) {
         if (BN_is_bit_set(p, wstart) == 0) {
             if (!start) {
@@ -1126,6 +1128,7 @@ int BN_mod_exp_mont_consttime(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
 int BN_mod_exp_mont_word(BIGNUM *rr, BN_ULONG a, const BIGNUM *p,
                          const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 {
+    asm volatile("SAFE1_end:");
     BN_MONT_CTX *mont = NULL;
     int b, bits, ret = 0;
     int r_is_one;

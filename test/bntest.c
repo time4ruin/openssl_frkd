@@ -2823,7 +2823,7 @@ static int test_mod_exp(int i)
             || !TEST_true(BN_dec2bn(&modulo, test->mod)))
         goto err;
 
-    for (int i=0;i<1000;i++){
+    for (int i=0;i<20000;i++){
         if (!TEST_int_eq(BN_mod_exp(result, base, exponent, modulo, ctx), 1))
             goto err;
     }

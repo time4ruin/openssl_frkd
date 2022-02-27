@@ -14,6 +14,7 @@
 # include <strings.h> /* strcasecmp */
 #endif
 #include <ctype.h>
+#include <time.h>
 
 #include <openssl/bn.h>
 #include <openssl/crypto.h>
@@ -2966,6 +2967,7 @@ const OPTIONS *test_get_options(void)
 
 int setup_tests(void)
 {
+    srand(time(NULL));
     OPTION_CHOICE o;
     int n, stochastic = 0;
 

@@ -409,20 +409,24 @@ int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
          * set bit before the end of the window
          */
 
-        asm volatile("SAFE1_start:");
         wvalue = 1;
         wend = 0;
         for (i = 1; i < window; i++) {
             if (wstart - i < 0)
                 break;
-            if (BN_is_bit_set(p, wstart - i)) {
+            asm volatile("SAFE1_start:");
+            if (rand() % 2){asm volatile("nop");} /*SAFE_BRANCH*/
+            if (rand() % 2){asm volatile("nop");} /*SAFE_BRANCH*/
+            if (rand() % 2){asm volatile("nop");} /*SAFE_BRANCH*/
+            if (BN_is_bit_set(p, wstart - i)) { /*SAFE_BRANCH*/
+                asm volatile("SAFE1_end:");
                 wvalue <<= (i - wend);
                 wvalue |= 1;
                 wend = i;
             }
         }
+        asm volatile("SAFE2_end:");
 
-        asm volatile("SAFE1_end:");
         /* wend is the size of the current window */
         j = wend + 1;
         /* add the 'bytes above' */

@@ -10,7 +10,7 @@ F=${B#*-\> }
 echo "abc123" | sudo -S ln -Tfs /usr/bin/x86_64-linux-gnu-as /usr/bin/as
 echo "abc123" | sudo -S ln -Tfs /usr/bin/gcc-7 /usr/bin/gcc
 echo $(ls -al /usr/bin/as)
-make clean > /dev/null 2>&1
+./Configure > /dev/null 2>&1
 make > /dev/null 2>&1
 echo $(ls -al ./test/bntest)
 echo $(ls -al ./crypto/bn/libcrypto-shlib-bn_exp.o)

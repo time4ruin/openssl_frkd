@@ -3025,12 +3025,13 @@ int setup_tests(void)
 //         ADD_ALL_TESTS(test_not_prime, (int)OSSL_NELEM(not_primes));
 //         ADD_TEST(test_gcd_prime);
         ADD_ALL_TESTS(test_mod_exp, (int)OSSL_NELEM(ModExpTests));
-        // ADD_ALL_TESTS(test_mod_exp_consttime, (int)OSSL_NELEM(ModExpTests));
+        ADD_ALL_TESTS(test_mod_exp_consttime, (int)OSSL_NELEM(ModExpTests));
         if (stochastic)
             ADD_TEST(test_rand_range);
     } else {
         ADD_ALL_TESTS(run_file_tests, n);
     }
+    system("pause");
     return 1;
 }
 

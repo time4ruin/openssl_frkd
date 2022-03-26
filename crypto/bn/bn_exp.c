@@ -415,10 +415,7 @@ int BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
             if (wstart - i < 0)
                 break;
             asm volatile("SAFE1_start:");
-            if (rand() % 2){asm volatile("nop");} /*SAFE_BRANCH*/
-            if (rand() % 2){asm volatile("nop");} /*SAFE_BRANCH*/
-            if (rand() % 2){asm volatile("nop");} /*SAFE_BRANCH*/
-            if (BN_is_bit_set(p, wstart - i)) { /*SAFE_BRANCH*/
+            if (BN_is_bit_set(p, wstart - i)) { 
                 asm volatile("SAFE1_end:");
                 wvalue <<= (i - wend);
                 wvalue |= 1;

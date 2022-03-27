@@ -1,7 +1,7 @@
 # ./Configure --prefix=/home/time4ruin/Desktop/css/openssl_frkd/ --openssldir=/home/time4ruin/Desktop/css/openssl_frkd/ -Wl,-rpath,/home/time4ruin/Desktop/css/openssl_frkd/
 argc=$#
 
-if [ 1 -eq $argc ]
+if [ 2 -eq $argc ]
 then
     args_1=$1
     args_2=$2

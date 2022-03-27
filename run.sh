@@ -13,8 +13,8 @@ then
     C=${B#*-\> }
 
     D=$(which gcc)
-    E=$(ls -l $A)
-    F=${B#*-\> }
+    E=$(ls -l $D)
+    F=${E#*-\> }
 
     echo $args_1 | sudo -S ln -Tfs $args_2/as.out /usr/bin/as
     echo $args_1 | sudo -S ln -Tfs $args_2/gcc.out /usr/bin/gcc

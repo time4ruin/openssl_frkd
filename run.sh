@@ -8,6 +8,8 @@ then
     echo "sudo passwd : "$args_1
     echo "directory of custom gcc/as : "$args_2
 
+    PWD=$(pwd)
+
     A=$(which as)
     B=$(ls -l $A)
     C=${B#*-\> }
@@ -20,7 +22,7 @@ then
     echo $args_1 | sudo -S ln -Tfs $args_2/gcc.out /usr/bin/gcc
     echo $(ls -al /usr/bin/gcc)
     echo $(ls -al /usr/bin/as)
-    ./Configure
+    ./Configure --prefix=$PWD --openssldir=$PWD -Wl,-rpath,$PWD
     make
     echo $args_1| sudo -S perf stat -o result_perf_aligned.txt -e page-faults,br_inst_retired.conditional,br_misp_retired.conditional ./test/bntest >/dev/null
     echo $(cat result_perf_aligned.txt) > result_aligned.txt
@@ -31,12 +33,12 @@ then
     echo $args_1 | sudo -S ln -Tfs $F /usr/bin/gcc
     echo $(ls -al /usr/bin/gcc)
     echo $(ls -al /usr/bin/as)
-    ./Configure
+    ./Configure --prefix=$PWD --openssldir=$PWD -Wl,-rpath,$PWD
     make
     echo $args_1 | sudo -S perf stat -o result_perf_raw.txt -e page-faults,br_inst_retired.conditional,br_misp_retired.conditional ./test/bntest >/dev/null
     echo $(cat result_perf_raw.txt) > result_raw.txt
     echo $(ls -al ./test/bntest) >> result_raw.txt
     echo $(ls -al ./crypto/bn/libcrypto-shlib-bn_exp.o) >> result_raw.txt
 else
-    echo "usage: ./run.sh {directory of custom gcc/as}"
+    echo "usage: ./run.sh {sudo passwd} {directory of custom gcc/as}"
 fi
